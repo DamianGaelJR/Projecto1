@@ -66,18 +66,18 @@ fun ComponentScreen(navController: NavController) {
     }
     Column {
         when (component) {
-            "Content 1" -> content1()
-            "Content 2" -> content2()
+            "Content 1" -> Content1()
+            "Content 2" -> Content2()
         }
     }
 }
 
 @Composable
-fun content1(){
+fun Content1(){
     Text(text = "Hola 1")
 }
 
 @Composable
-fun content2(){
+fun Content2(){
     Text(text = "Hola 2")
 }
