@@ -3,6 +3,7 @@ package com.example.projecto1.ui.screens
 import android.widget.Button
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -13,9 +14,15 @@ import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
@@ -27,6 +34,7 @@ import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.InputChip
 import androidx.compose.material3.InputChipDefaults
 import androidx.compose.material3.LargeFloatingActionButton
@@ -40,7 +48,10 @@ import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TimeInput
+import androidx.compose.material3.TimePicker
 import androidx.compose.material3.rememberDrawerState
+import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -51,11 +62,17 @@ import androidx.navigation.NavController
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.Role.Companion.Checkbox
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.coerceAtLeast
+import androidx.compose.ui.unit.coerceAtMost
 import kotlinx.coroutines.launch
 import org.w3c.dom.Text
+import java.time.LocalTime
+import java.util.Calendar
 
 
 @Composable
@@ -327,3 +344,145 @@ fun Switches() {
         )
     }
 }
+@Preview(showBackground = true)
+@Composable
+fun Badges(){
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceEvenly,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        var itemCount by remember { mutableStateOf(0) }
+        BadgedBox(
+            badge = {
+                if (itemCount > 0) {
+                    Badge(
+                        containerColor = Color.Red,
+                        contentColor = Color.White
+                    ) {
+                        Text(text = "$itemCount")
+                    }
+                }
+            }
+        ){
+            Icon(imageVector = Icons.Filled.ShoppingCart,
+                contentDescription = ""
+            )
+
+        }
+        Button(
+            onClick = { itemCount++ })
+        {
+            Text(text = "Add item")
+
+        }
+
+
+    }
+}
+//
+//@Composable
+//fun TimePickerDialog(
+//    onTimeSet: (LocalTime) -> Unit,
+//    onDismiss: () -> Unit
+//) {
+//    val context = LocalContext.current
+//    val calendar = android.icu.util.Calendar.getInstance()
+//    val hour = calendar[android.icu.util.Calendar.HOUR_OF_DAY]
+//    val minute = calendar[android.icu.util.Calendar.MINUTE]
+//
+//    val time = remember {
+//        mutableStateOf(
+//            com.google.android.libraries.places.api.model.LocalTime.of(
+//                hour,
+//                minute
+//            )
+//        )
+//    }
+//
+//    AlertDialog(
+//        onDismissRequest = onDismiss,
+//        title = { Text("Select Time") }, text = {
+//            TimePicker(
+//                initialTime = time.value,
+//                onTimeChange = { newTime ->
+//                    time.value = newTime
+//                }
+//            )
+//        },
+//        confirmButton = {
+//            Button(onClick = {
+//                onTimeSet(time.value)
+//                onDismiss()
+//            }) {
+//                Text("OK")
+//            }
+//        },
+//        dismissButton = {
+//            Button(onClick = onDismiss) {
+//                Text("Cancel")
+//            }
+//        }
+//    )
+//}
+//@Preview(showBackground = true)
+//@Composable
+//fun TimePicker(initialTime: LocalTime, onTimeChange: (LocalTime) -> Unit) {
+//    val time =
+//        remember { mutableStateOf(initialTime) }
+//
+//    Column {
+//        Row {
+//            NumberPicker(
+//                value = time.value.hour,
+//                onValueChange = { newHour ->
+//                    time.value = time.value.withHour(newHour)
+//                    onTimeChange(time.value)
+//                },
+//                range = 0..23
+//            )
+//            Text(":")
+//            NumberPicker(
+//                value = time.value.minute, onValueChange = { newMinute ->
+//                    time.value = time.value.withMinute(newMinute)
+//                    onTimeChange(time.value)
+//                },
+//                range = 0..59
+//            )
+//        }
+//    }
+//}
+//
+//@Composable
+//fun NumberPicker(value: Int, onValueChange: (Int) -> Unit, range: IntRange) {
+//    var selectedValue by remember {
+//        mutableStateOf(
+//            value
+//        )
+//    }
+//
+//    Column {
+//        IconButton(onClick = {
+//            selectedValue = (selectedValue + 1).coerceAtMost(range.last)
+//            onValueChange(selectedValue)
+//        }) {
+//            Icon(
+//                Icons.Filled.KeyboardArrowUp,
+//                contentDescription = "Increase"
+//            )
+//        }
+//        Text(
+//            selectedValue.toString(),
+//            textAlign = TextAlign.Center
+//        )
+//        IconButton(onClick = {
+//            selectedValue = (selectedValue - 1).coerceAtLeast(range.first)
+//            onValueChange(selectedValue)
+//        }) {
+//            Icon(
+//                Icons.Filled.KeyboardArrowDown,
+//                contentDescription = "Decrease"
+//            )
+//        }
+//    }
+//}
