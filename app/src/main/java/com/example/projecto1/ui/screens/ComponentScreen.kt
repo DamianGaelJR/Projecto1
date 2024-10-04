@@ -1,7 +1,8 @@
 package com.example.projecto1.ui.screens
 
-import android.widget.Button
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,10 +15,11 @@ import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
@@ -26,53 +28,54 @@ import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.InputChip
 import androidx.compose.material3.InputChipDefaults
 import androidx.compose.material3.LargeFloatingActionButton
 import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SmallFloatingActionButton
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TimeInput
 import androidx.compose.material3.TimePicker
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.semantics.Role.Companion.Checkbox
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.coerceAtLeast
-import androidx.compose.ui.unit.coerceAtMost
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import kotlinx.coroutines.launch
-import org.w3c.dom.Text
-import java.time.LocalTime
-import java.util.Calendar
+import java.time.LocalDate
 
 
 @Composable
@@ -380,109 +383,218 @@ fun Badges(){
 
     }
 }
-//
-//@Composable
-//fun TimePickerDialog(
-//    onTimeSet: (LocalTime) -> Unit,
-//    onDismiss: () -> Unit
-//) {
-//    val context = LocalContext.current
-//    val calendar = android.icu.util.Calendar.getInstance()
-//    val hour = calendar[android.icu.util.Calendar.HOUR_OF_DAY]
-//    val minute = calendar[android.icu.util.Calendar.MINUTE]
-//
-//    val time = remember {
-//        mutableStateOf(
-//            com.google.android.libraries.places.api.model.LocalTime.of(
-//                hour,
-//                minute
-//            )
-//        )
-//    }
-//
-//    AlertDialog(
-//        onDismissRequest = onDismiss,
-//        title = { Text("Select Time") }, text = {
-//            TimePicker(
-//                initialTime = time.value,
-//                onTimeChange = { newTime ->
-//                    time.value = newTime
-//                }
-//            )
-//        },
-//        confirmButton = {
-//            Button(onClick = {
-//                onTimeSet(time.value)
-//                onDismiss()
-//            }) {
-//                Text("OK")
-//            }
-//        },
-//        dismissButton = {
-//            Button(onClick = onDismiss) {
-//                Text("Cancel")
-//            }
-//        }
-//    )
-//}
-//@Preview(showBackground = true)
-//@Composable
-//fun TimePicker(initialTime: LocalTime, onTimeChange: (LocalTime) -> Unit) {
-//    val time =
-//        remember { mutableStateOf(initialTime) }
-//
-//    Column {
-//        Row {
-//            NumberPicker(
-//                value = time.value.hour,
-//                onValueChange = { newHour ->
-//                    time.value = time.value.withHour(newHour)
-//                    onTimeChange(time.value)
-//                },
-//                range = 0..23
-//            )
-//            Text(":")
-//            NumberPicker(
-//                value = time.value.minute, onValueChange = { newMinute ->
-//                    time.value = time.value.withMinute(newMinute)
-//                    onTimeChange(time.value)
-//                },
-//                range = 0..59
-//            )
-//        }
-//    }
-//}
-//
-//@Composable
-//fun NumberPicker(value: Int, onValueChange: (Int) -> Unit, range: IntRange) {
-//    var selectedValue by remember {
-//        mutableStateOf(
-//            value
-//        )
-//    }
-//
-//    Column {
-//        IconButton(onClick = {
-//            selectedValue = (selectedValue + 1).coerceAtMost(range.last)
-//            onValueChange(selectedValue)
-//        }) {
-//            Icon(
-//                Icons.Filled.KeyboardArrowUp,
-//                contentDescription = "Increase"
-//            )
-//        }
-//        Text(
-//            selectedValue.toString(),
-//            textAlign = TextAlign.Center
-//        )
-//        IconButton(onClick = {
-//            selectedValue = (selectedValue - 1).coerceAtLeast(range.first)
-//            onValueChange(selectedValue)
-//        }) {
-//            Icon(
-//                Icons.Filled.KeyboardArrowDown,
-//                contentDescription = "Decrease"
-//            )
-//        }
-//    }
-//}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview(showBackground = true)
+@Composable
+fun DatePickers() {
+    val datePickerState = rememberDatePickerState()
+
+    var showDatePickerDialog by remember { mutableStateOf(false) }
+
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceEvenly,
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        Button(
+            onClick = {
+                showDatePickerDialog = true
+            }
+        ) {
+            Text(text = "Seleccionar Fecha")
+        }
+
+        // Muestra el DatePickerDialog cuando showDatePickerDialog es verdadero
+        if (showDatePickerDialog) {
+            DatePickerDialog(
+                onDismissRequest = { showDatePickerDialog = false },
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            showDatePickerDialog = false
+                        }
+                    ) {
+                        Text(text = "Aceptar")
+                    }
+                },
+                dismissButton = {
+                    TextButton(
+                        onClick = { showDatePickerDialog = false }
+                    ) {
+                        Text(text = "Cancelar")
+                    }
+                }
+            ) {
+                DatePicker(state = datePickerState)
+            }
+        }
+
+        // Muestra la fecha seleccionada si se ha seleccionado una
+        if (datePickerState.selectedDateMillis != null) {
+            val selectedDate = LocalDate.ofEpochDay(datePickerState.selectedDateMillis!! / (24 * 60 * 60 * 1000))
+            Text(text = "Fecha seleccionada: ${selectedDate.toString()}")
+        }
+    }
+}
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview(showBackground = true)
+@Composable
+fun TimePickers() {
+    val timePickerState = rememberTimePickerState()
+
+    var showTimePickerDialog by remember { mutableStateOf(false) }
+
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceEvenly,
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        Button(
+            onClick = {
+                showTimePickerDialog = true
+            }
+        ) {
+            Text(text = "Seleccionar Hora")
+        }
+
+        // Diálogo manual para el TimePicker
+        if (showTimePickerDialog) {
+            AlertDialog(
+                onDismissRequest = { showTimePickerDialog = false },
+                confirmButton = {
+                    Button(
+                        onClick = { showTimePickerDialog = false }
+                    ) {
+                        Text("Aceptar")
+                    }
+                },
+                dismissButton = {
+                    Button(
+                        onClick = { showTimePickerDialog = false }
+                    ) {
+                        Text("Cancelar")
+                    }
+                },
+                text = {
+                    Box(
+                        modifier = Modifier
+                            .background(MaterialTheme.colorScheme.background)
+                            .padding(16.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        TimePicker(state = timePickerState)
+                    }
+                }
+            )
+        }
+
+        // Muestra la hora seleccionada
+        val selectedHour = timePickerState.hour
+        val selectedMinute = timePickerState.minute
+        Text(text = "Hora seleccionada: ${"%02d".format(selectedHour)}:${"%02d".format(selectedMinute)}")
+    }
+}
+@Preview(showBackground = true)
+@Composable
+fun SnackBars(){
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceEvenly,
+        modifier = Modifier.fillMaxSize()
+    ){
+        val snackSate = remember { SnackbarHostState() }
+        val snackScope = rememberCoroutineScope()
+
+        SnackbarHost(hostState = snackSate, Modifier)
+
+        fun launchSnackBar(){
+            snackScope.launch {
+                snackSate.showSnackbar("The message was sent")
+            }
+        }
+
+        Button(onClick = { launchSnackBar() }) {
+            Text(text = "Show SnackBar")
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun AlertDialogs() {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceEvenly,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        var showAlertDialog by remember { mutableStateOf(false) }
+        var selectedOption by remember { mutableStateOf("") }
+
+        if (showAlertDialog) {
+            AlertDialog(
+                icon = { Icon(Icons.Filled.Warning, contentDescription = "") },
+                title = { Text(text = "Confirm deletion") },
+                text = { Text(text = "Are you sure you want to delete this item?") },
+                onDismissRequest = { },
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            selectedOption = "Confirm"
+                            showAlertDialog = false
+                        }
+                    ){Text(text = "Confirm")}
+                },
+                dismissButton = {
+                    TextButton(
+                        onClick = {
+                            selectedOption = "Dismiss"
+                            showAlertDialog = false
+                        }
+                    ){Text(text = "Dismiss")}
+                }
+            )
+
+        }
+        Text(selectedOption)
+        Button(onClick = { showAlertDialog = true }) {
+            Text(text = "Show AlertDialog")
+        }
+
+    }
+}
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun Bars(){
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .background(Color.Blue)
+    ){
+        Row(
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .fillMaxWidth()
+                .background(Color.Black)
+                .padding(10.dp, 50.dp, 10.dp, 10.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        )
+        {
+            Icon(Icons.Filled.Menu, contentDescription = "", tint = Color.White)
+            Text(
+                text = "App title",
+                color = Color.White,
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp,
+                modifier = Modifier.padding(10.dp)
+
+            )
+            Icon(Icons.Filled.Settings, contentDescription = "", tint = Color.White)
+
+        }
+
+    }
+
+}
