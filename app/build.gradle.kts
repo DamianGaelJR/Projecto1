@@ -60,7 +60,11 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.compose)
-    //implementation(libs.androidx.navigation.runtime.ktx)
+    implementation(libs.places)
+
+    // Incluye solo la versión necesaria de adaptive-desktop
+    implementation ("androidx.compose.material3.adaptive:adaptive-desktop:1.0.0")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
