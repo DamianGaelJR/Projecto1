@@ -88,6 +88,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -202,9 +203,9 @@ fun Components(navController: NavController) {
                 "bars" -> {
                     Bars()
                 }
-//                "adaptive" -> {
-//                    Adaptive()
-//                }
+                "adaptive" -> {
+                    Adaptive()
+                }
             }
         }
     }
@@ -762,36 +763,40 @@ fun PostGrid(arrayPosts: Array<PostModel>){
     }
 }
 
-//@Preview(showBackground = true)
-//@Composable
-//fun Adaptive(){
-//    var WindowsSize = currentWindowAdaptiveInfo().windowSizeClass
-//    var height = currentWindowAdaptiveInfo().windowSizeClass.windowHeightSizeClass
-//    var width = currentWindowAdaptiveInfo().windowSizeClass.windowWidthSizeClass
-//
-//    val post = arrayOf(
-//        PostModel(1, "Title 1", "Text 1", painterResource(R.drawable.android_logo)),
-//        PostModel(2, "Title 2", "Text 2", painterResource(R.drawable.android_logo)),
-//        PostModel(3, "Title 3", "Text 3", painterResource(R.drawable.android_logo)),
-//        PostModel(4, "Title 4", "Text 4", painterResource(R.drawable.android_logo)),
-//        PostModel(5, "Title 5", "Text 4", painterResource(R.drawable.android_logo)),
-//        PostModel(6, "Title 6", "Text 4", painterResource(R.drawable.android_logo)),
-//        PostModel(7, "Title 7", "Text 4", painterResource(R.drawable.android_logo))
-//    )
-//    if (width == WindowWidthSizeClass.COMPACT){
-//        Posts(post, "PhoneP")
-//    } else if (height == WindowHeightSizeClass.COMPACT){
-//        Posts(post, "PhoneL")
-//    } else {
-//        Posts(post, "Phone")
-//    }
-//
-//    /*    Compact width < 600 dp Phone portrait
-//    Medium width >= 600 dp < 840 dp Tablets portrait
-//    Expanded width > 840 dp Tablet landscape
-//    Compact height < 480dp Phone landscape
-//    Medium height >= 480dp < 900 dp Tablet landscape or Phone portrait
-//    Expanded height > 900dp Tablet in portrait    */
-//
-//    //Text(text = WindowsSize.toString())
-//}
+@Preview(showBackground = true, device = "spec:id=reference_tablet,shape=Normal,width=1280,height=800,unit=dp,dpi=240")
+@Composable
+fun Adaptive(){
+    var WindowsSize = currentWindowAdaptiveInfo().windowSizeClass
+    var height = currentWindowAdaptiveInfo().windowSizeClass.windowHeightSizeClass
+    var width = currentWindowAdaptiveInfo().windowSizeClass.windowWidthSizeClass
+
+    //Compact width < 60dp phone portrait
+    //Medium width >= 600dp < 840dp tablets portrait
+    //Expanded width >= 840dp < 1200dp tablets landscape
+
+    //Compact height < 480dp phone landscape
+    //Medium height >= 480dp < 900dp tablets landscape or phone portrait
+    //Expanded height >= 900dp < 1200dp tablets landscape
+
+    val post = arrayOf(
+        PostModel(1, "TextCard","This is the card text", painterResource(R.drawable.android_logo)),
+        PostModel(2, "TextCard","This is the card text", painterResource(R.drawable.android_logo)),
+        PostModel(3, "TextCard","This is the card text", painterResource(R.drawable.android_logo)),
+        PostModel(4, "TextCard","This is the card text", painterResource(R.drawable.android_logo)),
+        PostModel(5, "TextCard","This is the card text", painterResource(R.drawable.android_logo)),
+        PostModel(6, "TextCard","This is the card text", painterResource(R.drawable.android_logo)),
+        PostModel(7, "TextCard","This is the card text", painterResource(R.drawable.android_logo)),
+        PostModel(8, "TextCard","This is the card text", painterResource(R.drawable.android_logo)),
+        PostModel(9, "TextCard","This is the card text", painterResource(R.drawable.android_logo)),
+        PostModel(10, "TextCard","This is the card text", painterResource(R.drawable.android_logo))
+
+    )
+    if(width == WindowWidthSizeClass.COMPACT){
+        Posts(post, "PhoneP" )
+    }else if(height == WindowHeightSizeClass.COMPACT){
+        Posts(post, "PhoneL")
+    }else{
+        Posts(post, "Tablet")
+    }
+    Text(text = WindowsSize.toString())
+}
